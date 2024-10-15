@@ -160,7 +160,6 @@ class ScoreRequest(BaseModel):
 @score_router.post('/calculatescore')
 async def upload_resume(data: ScoreRequest) -> Dict[str, Any]:
     # Download the resume PDF from the provided URL
-    print(data)
     try:
         response = requests.get(PREFIX + data.resume_url)
         response.raise_for_status()
@@ -193,20 +192,20 @@ async def upload_resume(data: ScoreRequest) -> Dict[str, Any]:
     # Join skills into a single string
     text = [" ".join(resume_skills), " ".join(relevant_skills)]
 
-# Initialize CountVectorizer and fit_transform it to the text data
+    # Initialize CountVectorizer and fit_transform it to the text data
     cv = CountVectorizer()
     count_matrix = cv.fit_transform(text)
 
-# Convert the count matrix into an array
+    # Convert the count matrix into an array
     count_matrix_array = count_matrix.toarray()
 
-# Calculate cosine similarity between the two vectors
+    # Calculate cosine similarity between the two vectors
     cosine_sim = cosine_similarity(count_matrix_array)
 
-# The similarity score between the resume and job is in cosine_sim[0, 1]
+    # The similarity score between the resume and job is in cosine_sim[0, 1]
     score = cosine_sim[0, 1] * 100  # Convert to percentage
 
-    return {"Compatiblilty Score": min(score + 20, 98) , "dbjob": {"id": data.jobLink}}
+    return {"compatibility_score": min(score + 20, 98)}
 
 
 app.include_router(score_router)
