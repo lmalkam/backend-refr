@@ -209,7 +209,7 @@ async def upload_resume(data: ScoreRequest) -> Dict[str, Any]:
     # The similarity score between the resume and job is in cosine_sim[0, 1]
     score = cosine_sim[0, 1] * 100  # Convert to percentage
 
-    return {"compatibility_score": min(score + 20, 98) , "job_title": job_data.get("job_title"), "company" : job_data.get("company"), "location" : job_data.get("location"), "description" : job_data.get("description")}
+    return {"compatibility_score": min(score + 20, 98) , "title": job_data.get("job_title"), "company" : job_data.get("company"), "location" : job_data.get("location"), "description" : job_data.get("description")}
 
 
 app.include_router(score_router)
