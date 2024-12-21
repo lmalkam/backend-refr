@@ -161,7 +161,7 @@ class ScoreRequest(BaseModel):
 async def upload_resume(data: ScoreRequest) -> Dict[str, Any]:
     # Download the resume PDF from the provided URL
     try:
-        response = requests.get(PREFIX + data.resume_url)
+        response = requests.get(data.resume_url)
         response.raise_for_status()
         resume_content = response.content
     except requests.exceptions.RequestException as e:
